@@ -6,7 +6,7 @@ Introduction
 
 Python module for sending and receiving 433/315MHz LPD/SRD signals with generic low-cost GPIO RF modules on a Raspberry Pi.
 
-Protocol and base logic ported ported from `rc-switch`_.
+Protocol and base logic ported ported from `rc-switch`_. The `libgiod-python`_ library is required to access the GPIO pins. Therefore, the GPIO character device is used instead of the old GPIO sysfs interface.
 
 Supported hardware
 ------------------
@@ -37,19 +37,24 @@ For a full list of compatible devices and chipsets see the `rc-switch Wiki`_
 Dependencies
 ------------
 
-::
-
-    RPi.GPIO
+`libgiod-python`_ (available through most package managers as :code:`python3-libgpiod`)
 
 Installation
 ------------
 
-On your Raspberry Pi, install the *rpi_rf* module via pip.
+On your Raspberry Pi, install the *rpi_rf-gpiod* module via pip.
 
-Python 3::
+Debian/Ubuntu::
 
-    # apt-get install python3-pip
-    # pip3 install rpi-rf
+    # apt-get install python3-pip python3-libgpiod
+    
+Fedora/CentOS::
+
+    # dnf install python3-pip python3-libgpiod
+    
+With :code:`pip` installed::
+
+    # pip3 install rpi-rf-gpiod
 
 Wiring diagram (example)
 ------------------------
@@ -101,14 +106,17 @@ Open Source
 -----------
 
 * The code is licensed under the `BSD Licence`_
+* The project is forked from the GPIO sysfs interface implementation of milaq_
 * The project source code is hosted on `GitHub`_
 * Please use `GitHub issues`_ to submit bugs and report issues
 
 .. _rc-switch: https://github.com/sui77/rc-switch
 .. _rc-switch Wiki: https://github.com/sui77/rc-switch/wiki
 .. _BSD Licence: http://www.linfo.org/bsdlicense.html
-.. _GitHub: https://github.com/milaq/rpi-rf
-.. _GitHub issues: https://github.com/milaq/rpi-rf/issues
+.. _milaq: https://github.com/milaq/rpi-rf
+.. _GitHub: https://github.com/aoertel/rpi-rf-gpiod
+.. _GitHub issues: https://github.com/aoertel/rpi-rf-gpiod/issues
 .. _scripts: https://github.com/milaq/rpi-rf/blob/master/scripts
 .. _rpi-rf_send: https://github.com/milaq/rpi-rf/blob/master/scripts/rpi-rf_send
 .. _rpi-rf_receive: https://github.com/milaq/rpi-rf/blob/master/scripts/rpi-rf_receive
+.. _libgiod-python: https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
