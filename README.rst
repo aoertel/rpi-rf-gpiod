@@ -1,5 +1,5 @@
-rpi-rf
-======
+rpi-rf-gpiod
+============
 
 Introduction
 ------------
