@@ -116,7 +116,7 @@ Open Source
 .. _milaq: https://github.com/milaq/rpi-rf
 .. _GitHub: https://github.com/aoertel/rpi-rf-gpiod
 .. _GitHub issues: https://github.com/aoertel/rpi-rf-gpiod/issues
-.. _scripts: https://github.com/milaq/rpi-rf/blob/master/scripts
-.. _rpi-rf_send: https://github.com/milaq/rpi-rf/blob/master/scripts/rpi-rf_send
-.. _rpi-rf_receive: https://github.com/milaq/rpi-rf/blob/master/scripts/rpi-rf_receive
+.. _scripts: https://github.com/aoertel/rpi-rf-gpiod/blob/master/scripts
+.. _rpi-rf_send: https://github.com/aoertel/rpi-rf-gpiod/blob/master/scripts/rpi-rf_send
+.. _rpi-rf_receive: https://github.com/aoertel/rpi-rf-gpiod/blob/master/scripts/rpi-rf_receive
 .. _libgiod-python: https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
