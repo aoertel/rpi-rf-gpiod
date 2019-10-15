@@ -7,13 +7,13 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='rpi-rf',
-    version='0.9.7',
-    author='Micha LaQua',
-    author_email='micha.laqua@gmail.com',
-    description='Sending and receiving 433/315MHz signals with low-cost GPIO RF modules on a Raspberry Pi',
+    name='rpi-rf-gpiod',
+    version='0.1.0',
+    author='Andy Oertel',
+    author_email='oertelandy@gmail.com',
+    description='Sending and receiving 433/315MHz signals with low-cost GPIO RF modules on a Raspberry Pi accessed with gpiod',
     long_description=long_description,
-    url='https://github.com/milaq/rpi-rf',
+    url='https://github.com/aoertel/rpi-rf-gpiod',
     license='BSD',
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -34,9 +34,12 @@ setup(
         '433',
         '433mhz',
         '315',
-        '315mhz'
+        '315mhz',
+        'gpiod',
+        'libgpiod',
+        'libgpiod-python'
     ],
-    install_requires=['RPi.GPIO'],
+    install_requires=['python3-libgpiod'],
     scripts=['scripts/rpi-rf_send', 'scripts/rpi-rf_receive'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests'])
 )
