@@ -23,10 +23,6 @@ parser.add_argument('-r', dest='repeat', type=int, default=10,
                     help="Repeat cycles (Default: 10)")
 args = parser.parse_args()
 
-rfdevice = RFDevice(args.gpio)
-rfdevice.enable_tx()
-rfdevice.tx_repeat = args.repeat
-
 if args.protocol:
     protocol = args.protocol
 else:
@@ -40,11 +36,18 @@ if args.length:
 else:
     length = "default"
 
-logging.info(str(args.code) +
+rfdevice.tx_code(args.code, args.protocol, args.pulselength, args.length)
+
+with gpiod.Chip("gpiochip0") as chip:
+    gpio = chip.get_line(args.gpio)
+    rfdevice = RFDevice(gpio)
+    rfdevice.tx_repeat = args.repeat
+    
+    logging.info(str(args.code) +
              " [protocol: " + str(protocol) +
              ", pulselength: " + str(pulselength) +
              ", length: " + str(length) +
              ", repeat: " + str(rfdevice.tx_repeat) + "]")
-
-rfdevice.tx_code(args.code, args.protocol, args.pulselength, args.length)
-rfdevice.cleanup()
+    
+    gpio.request(consumer="rpi-rf_send", type=gpiod.LINE_REQ_DIR_OUT)
+    rfdevice.tx_code(args.code, args.protocol, args.pulselength, args.length)

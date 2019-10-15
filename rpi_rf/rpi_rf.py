@@ -6,7 +6,7 @@ import logging
 import time
 from collections import namedtuple
 
-from RPi import GPIO
+import gpiod
 
 MAX_CHANGES = 67
 
@@ -34,7 +34,6 @@ class RFDevice:
                  tx_proto=1, tx_pulselength=None, tx_repeat=10, tx_length=24, rx_tolerance=80):
         """Initialize the RF device."""
         self.gpio = gpio
-        self.tx_enabled = False
         self.tx_proto = tx_proto
         if tx_pulselength:
             self.tx_pulselength = tx_pulselength
@@ -42,7 +41,6 @@ class RFDevice:
             self.tx_pulselength = PROTOCOLS[tx_proto].pulselength
         self.tx_repeat = tx_repeat
         self.tx_length = tx_length
-        self.rx_enabled = False
         self.rx_tolerance = rx_tolerance
         # internal values
         self._rx_timings = [0] * (MAX_CHANGES + 1)
@@ -58,35 +56,6 @@ class RFDevice:
 
         GPIO.setmode(GPIO.BCM)
         _LOGGER.debug("Using GPIO " + str(gpio))
-
-    def cleanup(self):
-        """Disable TX and RX and clean up GPIO."""
-        if self.tx_enabled:
-            self.disable_tx()
-        if self.rx_enabled:
-            self.disable_rx()
-        _LOGGER.debug("Cleanup")
-        GPIO.cleanup()
-
-    def enable_tx(self):
-        """Enable TX, set up GPIO."""
-        if self.rx_enabled:
-            _LOGGER.error("RX is enabled, not enabling TX")
-            return False
-        if not self.tx_enabled:
-            self.tx_enabled = True
-            GPIO.setup(self.gpio, GPIO.OUT)
-            _LOGGER.debug("TX enabled")
-        return True
-
-    def disable_tx(self):
-        """Disable TX, reset GPIO."""
-        if self.tx_enabled:
-            # set up GPIO pin as input for safety
-            GPIO.setup(self.gpio, GPIO.IN)
-            self.tx_enabled = False
-            _LOGGER.debug("TX disabled")
-        return True
 
     def tx_code(self, code, tx_proto=None, tx_pulselength=None, tx_length=None):
         """
@@ -169,38 +138,14 @@ class RFDevice:
 
     def tx_waveform(self, highpulses, lowpulses):
         """Send basic waveform."""
-        if not self.tx_enabled:
-            _LOGGER.error("TX is not enabled, not sending data")
-            return False
-        GPIO.output(self.gpio, GPIO.HIGH)
+        self.gpio.set_value(1)
         self._sleep((highpulses * self.tx_pulselength) / 1000000)
-        GPIO.output(self.gpio, GPIO.LOW)
+        self.gpio.set_value(0)
         self._sleep((lowpulses * self.tx_pulselength) / 1000000)
         return True
 
-    def enable_rx(self):
-        """Enable RX, set up GPIO and add event detection."""
-        if self.tx_enabled:
-            _LOGGER.error("TX is enabled, not enabling RX")
-            return False
-        if not self.rx_enabled:
-            self.rx_enabled = True
-            GPIO.setup(self.gpio, GPIO.IN)
-            GPIO.add_event_detect(self.gpio, GPIO.BOTH)
-            GPIO.add_event_callback(self.gpio, self.rx_callback)
-            _LOGGER.debug("RX enabled")
-        return True
-
-    def disable_rx(self):
-        """Disable RX, remove GPIO event detection."""
-        if self.rx_enabled:
-            GPIO.remove_event_detect(self.gpio)
-            self.rx_enabled = False
-            _LOGGER.debug("RX disabled")
-        return True
-
     # pylint: disable=unused-argument
-    def rx_callback(self, gpio):
+    def rx_callback(self):
         """RX callback for GPIO event detection. Handle basic signal detection."""
         timestamp = int(time.perf_counter() * 1000000)
         duration = timestamp - self._rx_last_timestamp
