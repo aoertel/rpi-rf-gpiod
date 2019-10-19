@@ -2,6 +2,7 @@
 
 import argparse
 import logging
+import gpiod
 
 from rpi_rf_gpiod import RFDevice
 
@@ -35,8 +36,6 @@ if args.length:
     length = args.length
 else:
     length = "default"
-
-rfdevice.tx_code(args.code, args.protocol, args.pulselength, args.length)
 
 with gpiod.Chip("gpiochip0") as chip:
     gpio = chip.get_line(args.gpio)

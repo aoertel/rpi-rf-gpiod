@@ -5,6 +5,7 @@ import signal
 import sys
 import time
 import logging
+import gpiod
 
 from rpi_rf_gpiod import RFDevice
 
