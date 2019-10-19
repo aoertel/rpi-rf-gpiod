@@ -100,7 +100,32 @@ Raspberry Pi 1/2(B+)::
 Usage
 -----
 
-See `scripts`_ (`rpi-rf_send`_, `rpi-rf_receive`_) which are also shipped as cmdline tools.
+See `scripts`_ (`rpi-rf_send`_, `rpi-rf_receive`_) which are also shipped as cmdline tools. They are automatically installed when installing the package with :code:`pip3`.
+
+Send:
+   :code:`rpi-rf_send [-h] [-g GPIO] [-p PULSELENGTH] [-t PROTOCOL] [-l LENGTH] [-r REPEAT] CODE`
+
+   Sends a decimal code via a 433/315MHz GPIO device
+
+   positional arguments:
+      CODE           Decimal code to send
+
+   optional arguments:
+     -h, --help      show this help message and exit
+     -g GPIO         GPIO pin (Default: 17)
+     -p PULSELENGTH  Pulselength (Default: 350)
+     -t PROTOCOL     Protocol (Default: 1)
+     -l LENGTH       Codelength (Default: 24)
+     -r REPEAT       Repeat cycles (Default: 10)
+     
+Receive:
+   :code:`rpi-rf_receive [-h] [-g GPIO]`
+
+   Receives a decimal code via a 433/315MHz GPIO device
+
+   optional arguments:
+     -h, --help  show this help message and exit
+     -g GPIO     GPIO pin (Default: 27)
 
 Open Source
 -----------
