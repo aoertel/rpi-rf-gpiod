@@ -54,7 +54,6 @@ class RFDevice:
         self.rx_bitlength = None
         self.rx_pulselength = None
 
-        GPIO.setmode(GPIO.BCM)
         _LOGGER.debug("Using GPIO " + str(gpio))
 
     def tx_code(self, code, tx_proto=None, tx_pulselength=None, tx_length=None):
