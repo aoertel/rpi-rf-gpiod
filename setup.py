@@ -39,7 +39,7 @@ setup(
         'libgpiod',
         'libgpiod-python'
     ],
-    install_requires=['python3-libgpiod'],
+    install_requires=[''],
     scripts=['scripts/rpi-rf_send', 'scripts/rpi-rf_receive'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests'])
 )
