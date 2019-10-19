@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from .rpi_rf import RFDevice
+from .rpi_rf_gpio import RFDevice
 
 
-__version__ = '0.9.7'
+__version__ = '0.1.0'
