@@ -3,7 +3,7 @@
 import argparse
 import logging
 
-from rpi_rf import RFDevice
+from rpi_rf_gpiod import RFDevice
 
 logging.basicConfig(level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S',
                     format='%(asctime)-15s - [%(levelname)s] %(module)s: %(message)s',)
